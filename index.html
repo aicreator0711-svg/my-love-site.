@@ -1,452 +1,198 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pixel Love Story</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MXA | Experience</title>
     <style>
-        /* * =========================================
-         * CORE CSS VARIABLES & RESET
-         * =========================================
-         */
-        :root {
-            --bg-color: #ffc2d1; /* وردي ناعم */
-            --bg-accent: #ffe5ec;
-            --primary-red: #ff0000; /* أحمر بيكسل نقي */
-            --pixel-border: #4a0e16; /* لون الحدود داكن */
-            --text-color: #4a0e16;
-            --btn-shadow: rgba(0, 0, 0, 0.2);
-            --toast-bg: #ffffff;
-            --toast-bar: #ff0000;
-        }
+        /* استدعاء خط بكسل مرعب */
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&display=swap');
 
-        * {
-            box-sizing: border-box;
-            user-select: none; /* منع تحديد النصوص للمظهر التطبيقي */
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --purple-glow: #4b0082;
+            --blood-red: #8a0303;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* منع السكرول */
-            font-family: 'Press Start 2P', cursive; /* خط البيكسل */
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* تأثير شاشة التلفاز القديم (Scanlines) لزيادة الاحترافية */
-        .crt-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 999;
-        }
-
-        /* * =========================================
-         * MAIN CONTAINER & UI
-         * =========================================
-         */
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            transition: opacity 1s ease;
-        }
-
-        /* القلوب الخلفية الثابتة */
-        .bg-heart {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 20px;
-            z-index: 1;
-            animation: float 4s infinite ease-in-out;
-        }
-
-        /* أزرار البيكسل الاحترافية */
-        .pixel-btn-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 20px;
-            margin-top: 50px;
-            position: relative;
-            height: 100px; /* مساحة كافية للحركة */
-        }
-
-        .pixel-btn {
-            background: #fff;
-            border: 4px solid var(--pixel-border);
-            padding: 15px 20px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px; /* حجم مناسب للهاتف */
-            color: var(--pixel-border);
-            cursor: pointer;
-            position: relative;
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
-            text-transform: uppercase;
-            outline: none;
-            display: inline-block;
-        }
-
-        .pixel-btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
-        }
-
-        /* تنسيق الزر الأيمن (الموافقة) */
-        .btn-yes {
-            background-color: #fff0f5;
-        }
-
-        /* تنسيق الزر الأيسر (الهروب) */
-        .btn-no {
-            background-color: #ffebee;
-            position: relative; /* ضروري للحركة */
-            transition: top 0.2s ease, left 0.2s ease; 
-        }
-
-        /* * =========================================
-         * THE FINAL MESSAGE (Même Nekk)
-         * =========================================
-         */
-        .final-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            color: var(--pixel-border);
-            text-shadow: 4px 4px 0px #fff;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 2s ease, visibility 0s linear 2s;
-            z-index: 20;
-            width: 100%;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .final-message.visible {
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 2s ease;
-        }
-
-        /* * =========================================
-         * TOAST NOTIFICATION (تنبيه NO)
-         * =========================================
-         */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .pixel-toast {
-            background: #fff;
-            border: 3px solid var(--pixel-border);
-            padding: 10px 20px;
-            min-width: 200px;
-            position: relative;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-            animation: slideDown 0.3s ease-out;
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background: #000;
             overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
         }
 
-        .toast-text {
-            font-size: 10px;
-            color: var(--pixel-border);
-            text-align: center;
-            margin-bottom: 5px;
+        /* تأثير التلفاز القديم المتطور */
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none; z-index: 100; opacity: 0.8;
         }
 
-        .toast-progress {
-            height: 4px;
-            background: var(--toast-bar);
-            width: 0%;
-            animation: loadProgress 1.5s linear forwards;
+        /* تأثير الوشوشة (Noise) */
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWUqW5nJC/giphy.gif');
+            opacity: 0.05; pointer-events: none; z-index: 99;
         }
 
-        /* * =========================================
-         * ANIMATIONS
-         * =========================================
-         */
-        @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        /* شاشة الدخول */
+        #enter-screen {
+            position: fixed; inset: 0; background: #050008;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; cursor: pointer; transition: 1s;
         }
 
-        @keyframes loadProgress {
-            from { width: 0%; }
-            to { width: 100%; }
+        #enter-btn {
+            font-size: 1.5rem; color: #fff;
+            text-shadow: 0 0 10px var(--blood-red);
+            letter-spacing: 5px; animation: pulse 2s infinite;
         }
 
-        @keyframes fadeOutToast {
-            to { opacity: 0; transform: translateY(-10px); }
+        /* المسرح الرئيسي */
+        #stage {
+            height: 100vh; width: 100vw;
+            display: none; position: relative;
+            background: radial-gradient(circle, #1a0029 0%, #000 70%);
         }
 
-        /* كانفاس الورود */
-        #roseCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* يسمح بالنقر خلفه */
-            z-index: 5;
+        /* نص MXA المرعب */
+        #mxa-text {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem; color: #8a2be2;
+            text-shadow: 3px 3px 0px #220033, 0 0 20px #ff00ea;
+            letter-spacing: 15px; filter: blur(0.5px);
+            transition: 0.3s cubic-bezier(.17,.67,.83,.67);
         }
 
+        /* العقرب - مخفي في البداية */
+        #scorpion-wrap {
+            display: none; position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 10rem; filter: drop-shadow(0 0 20px red) invert(1);
+        }
+
+        /* أنيميشن الهجوم (Jump Scare) */
+        .jumpscare {
+            animation: attack-move 0.25s forwards !important;
+        }
+
+        @keyframes attack-move {
+            0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+            40% { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); }
+            100% { transform: translate(-50%, -50%) scale(15); filter: brightness(0); visibility: hidden; }
+        }
+
+        /* الدماء المسالة */
+        .blood-drip {
+            position: absolute; top: -100px;
+            background: linear-gradient(to bottom, transparent, var(--blood-red));
+            width: 20px; border-radius: 0 0 15px 15px;
+            filter: blur(1px); z-index: 50;
+        }
+
+        /* اهتزاز الشاشة */
+        .shake { animation: shake-anim 0.1s infinite; }
+        @keyframes shake-anim {
+            0% { transform: translate(2px, 2px); }
+            50% { transform: translate(-3px, -1px); }
+            100% { transform: translate(1px, 2px); }
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
 
     <div class="crt-overlay"></div>
+    <div class="noise"></div>
 
-    <canvas id="roseCanvas"></canvas>
-
-    <div class="toast-container" id="toastContainer"></div>
-
-    <div class="container" id="mainUI">
-        <div style="margin-bottom: 40px;">
-            <span style="font-size: 40px; color: #ff0000; text-shadow: 4px 4px 0 #4a0e16;">❤</span>
-        </div>
-
-        <div class="pixel-btn-container">
-            <button class="pixel-btn btn-yes" id="yesBtn">Themled-iyi ?</button>
-            
-            <button class="pixel-btn btn-no" id="noBtn">Kerhaghk</button>
-        </div>
+    <div id="enter-screen" onclick="initHorror()">
+        <div id="enter-btn">[ ENTER THE VOID ]</div>
     </div>
 
-    <div class="final-message" id="finalMsg">
-        Même Nekk<br>
-        <span style="font-size: 40px; color: #ff0000; display:block; margin-top:20px;">❤</span>
+    <div id="stage">
+        <div id="mxa-text">MXA</div>
+        <div id="scorpion-wrap">🦂</div>
+        <div id="blood-curtain"></div>
     </div>
 
     <script>
-        /**
-         * =========================================
-         * PIXEL ENGINE & LOGIC
-         * كتب هذا الكود بأسلوب معياري (Modular)
-         * =========================================
-         */
+        const stage = document.getElementById('stage');
+        const mxa = document.getElementById('mxa-text');
+        const scorp = document.getElementById('scorpion-wrap');
+        const bloodCurtain = document.getElementById('blood-curtain');
 
-        // --- إعدادات النظام ---
-        const CONFIG = {
-            toastDuration: 1500, // مدة التنبيه
-            rosesCount: 100,     // عدد الورود المتساقطة
-            gravity: 2,          // سرعة السقوط
-            colors: ['#ff0000', '#d32f2f', '#c2185b', '#e91e63']
-        };
-
-        // --- عناصر الواجهة ---
-        const ui = {
-            yesBtn: document.getElementById('yesBtn'),
-            noBtn: document.getElementById('noBtn'),
-            mainContainer: document.getElementById('mainUI'),
-            finalMsg: document.getElementById('finalMsg'),
-            toastContainer: document.getElementById('toastContainer'),
-            canvas: document.getElementById('roseCanvas')
-        };
-
-        // --- منطق زر الرفض (الهروب) ---
-        class RunawayButton {
-            constructor(element) {
-                this.element = element;
-                this.clicks = 0;
-                this.init();
-            }
-
-            init() {
-                this.element.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    this.teleport();
-                    this.showRefusalToast();
-                });
-            }
-
-            teleport() {
-                // حساب أبعاد الشاشة لضمان بقاء الزر داخلها
-                const maxX = window.innerWidth - this.element.offsetWidth - 20;
-                const maxY = window.innerHeight - this.element.offsetHeight - 20;
-                
-                // التأكد من أن الإحداثيات موجبة
-                const randomX = Math.max(10, Math.random() * maxX);
-                const randomY = Math.max(10, Math.random() * maxY);
-
-                // تطبيق التغيير المباشر للموقع
-                this.element.style.position = 'fixed'; // تحويله لثابت ليتحرك بحرية في الشاشة
-                this.element.style.left = `${randomX}px`;
-                this.element.style.top = `${randomY}px`;
-                
-                // تأثير اهتزاز بسيط
-                this.element.animate([
-                    { transform: 'rotate(0deg)' },
-                    { transform: 'rotate(-5deg)' },
-                    { transform: 'rotate(5deg)' },
-                    { transform: 'rotate(0deg)' }
-                ], { duration: 200 });
-            }
-
-            showRefusalToast() {
-                const toastId = 'toast-' + Date.now();
-                const toastHTML = `
-                    <div class="pixel-toast" id="${toastId}">
-                        <div class="toast-text">NO</div>
-                        <div class="toast-progress"></div>
-                    </div>
-                `;
-                
-                ui.toastContainer.insertAdjacentHTML('beforeend', toastHTML);
-                const toastEl = document.getElementById(toastId);
-
-                // حذف التنبيه بعد انتهاء الوقت
-                setTimeout(() => {
-                    toastEl.style.animation = 'fadeOutToast 0.5s forwards';
-                    setTimeout(() => toastEl.remove(), 500);
-                }, CONFIG.toastDuration);
-            }
+        function initHorror() {
+            document.getElementById('enter-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('enter-screen').style.display = 'none';
+                stage.style.display = 'block';
+                startTimeline();
+            }, 1000);
         }
 
-        // --- منطق زر القبول (احتفال الورود) ---
-        class CelebrationManager {
-            constructor() {
-                this.ctx = ui.canvas.getContext('2d');
-                this.particles = [];
-                this.isRunning = false;
+        function startTimeline() {
+            // المرحلة 1: هدوء مريب (5 ثواني)
+            setTimeout(() => {
+                transformToScorpion();
+            }, 5000);
+        }
+
+        function transformToScorpion() {
+            // تأثير خلل (Glitch) عند التحول
+            mxa.style.filter = "blur(20px) contrast(200%)";
+            mxa.style.opacity = "0";
+            
+            setTimeout(() => {
+                mxa.style.display = "none";
+                scorp.style.display = "block";
+                document.body.classList.add('shake');
                 
-                // ضبط حجم الكانفاس
-                this.resizeCanvas();
-                window.addEventListener('resize', () => this.resizeCanvas());
-
-                ui.yesBtn.addEventListener('click', () => this.startCelebration());
-            }
-
-            resizeCanvas() {
-                ui.canvas.width = window.innerWidth;
-                ui.canvas.height = window.innerHeight;
-            }
-
-            startCelebration() {
-                // 1. إخفاء الواجهة
-                ui.mainContainer.style.opacity = '0';
+                // المرحلة 2: العقرب يتربص (3 ثواني)
                 setTimeout(() => {
-                    ui.mainContainer.style.display = 'none';
-                }, 1000);
+                    executeJumpScare();
+                }, 3000);
+            }, 500);
+        }
 
-                // 2. إظهار الرسالة النهائية
-                setTimeout(() => {
-                    ui.finalMsg.classList.add('visible');
-                }, 800);
+        function executeJumpScare() {
+            scorp.classList.add('jumpscare');
+            
+            // المرحلة 3: السواد التام والدماء
+            setTimeout(() => {
+                document.body.classList.remove('shake');
+                stage.style.background = "black";
+                scorp.style.display = "none";
+                startBloodRain();
+            }, 250);
+        }
 
-                // 3. تشغيل نظام الجزيئات (الورود)
-                this.isRunning = true;
-                this.createParticles();
-                this.animate();
-            }
-
-            createParticles() {
-                for (let i = 0; i < CONFIG.rosesCount; i++) {
-                    this.particles.push(new RoseParticle(ui.canvas.width, ui.canvas.height));
-                }
-            }
-
-            animate() {
-                if (!this.isRunning) return;
-
-                this.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
+        function startBloodRain() {
+            setInterval(() => {
+                const drip = document.createElement('div');
+                drip.className = 'blood-drip';
+                const size = Math.random() * 40 + 10;
+                drip.style.left = Math.random() * 100 + 'vw';
+                drip.style.width = size + 'px';
+                drip.style.height = (Math.random() * 200 + 100) + 'px';
                 
-                this.particles.forEach(particle => {
-                    particle.update();
-                    particle.draw(this.ctx);
+                // تحريك الدم كأنه يسيل
+                drip.animate([
+                    { transform: 'translateY(-100%)', opacity: 0 },
+                    { opacity: 1, offset: 0.1 },
+                    { transform: 'translateY(100vh)', opacity: 0.8 }
+                ], {
+                    duration: Math.random() * 2000 + 3000,
+                    easing: 'linear'
                 });
 
-                requestAnimationFrame(() => this.animate());
-            }
+                bloodCurtain.appendChild(drip);
+                setTimeout(() => drip.remove(), 5000);
+            }, 150);
         }
-
-        // --- كائن الوردة (Pixel Art Logic) ---
-        class RoseParticle {
-            constructor(w, h) {
-                this.w = w;
-                this.h = h;
-                this.reset(true);
-            }
-
-            reset(initial = false) {
-                this.x = Math.random() * this.w;
-                this.y = initial ? Math.random() * this.h - this.h : -20;
-                this.size = Math.random() * 4 + 2; // حجم البيكسل
-                this.speedY = Math.random() * 2 + 1.5;
-                this.sway = Math.random() * 0.05 - 0.025;
-                this.color = CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)];
-                
-                // شكل البيكسل للقلب/الوردة (مصفوفة بسيطة)
-                this.shape = [
-                    [0, 1, 0, 1, 0],
-                    [1, 1, 1, 1, 1],
-                    [1, 1, 1, 1, 1],
-                    [0, 1, 1, 1, 0],
-                    [0, 0, 1, 0, 0]
-                ];
-            }
-
-            update() {
-                this.y += this.speedY;
-                this.x += Math.sin(this.y * 0.01) + this.sway;
-
-                if (this.y > this.h) {
-                    this.reset();
-                }
-            }
-
-            draw(ctx) {
-                ctx.fillStyle = this.color;
-                // رسم المصفوفة كبيكسلات
-                for (let row = 0; row < 5; row++) {
-                    for (let col = 0; col < 5; col++) {
-                        if (this.shape[row][col] === 1) {
-                            ctx.fillRect(
-                                this.x + (col * this.size), 
-                                this.y + (row * this.size), 
-                                this.size, 
-                                this.size
-                            );
-                        }
-                    }
-                }
-            }
-        }
-
-        // --- تشغيل التطبيق ---
-        document.addEventListener('DOMContentLoaded', () => {
-            new RunawayButton(ui.noBtn);
-            new CelebrationManager();
-        });
-
     </script>
 </body>
-  </html>
-  
+</html>
