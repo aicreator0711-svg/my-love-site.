@@ -2,197 +2,294 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MXA | Experience</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MXA | Nightmare</title>
     <style>
-        /* استدعاء خط بكسل مرعب */
-        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=VT323&display=swap');
 
         :root {
-            --purple-glow: #4b0082;
-            --blood-red: #8a0303;
+            --main-bg: #05000a; /* أسود مائل للبنفسجي الغامق جدا */
+            --glow-color: #5500ff;
+            --blood-color: #8a0303;
         }
 
         body, html {
             margin: 0; padding: 0;
             width: 100%; height: 100%;
-            background: #000;
+            background-color: black;
             overflow: hidden;
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'VT323', monospace;
+            cursor: none; /* إخفاء المؤشر لزيادة الواقعية */
         }
 
-        /* تأثير التلفاز القديم المتطور */
-        .crt-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none; z-index: 100; opacity: 0.8;
+        /* --- تأثير التلفاز القديم (بدون كتابات عشوائية) --- */
+        .scanlines {
+            position: fixed; inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 90; pointer-events: none;
+        }
+        
+        .vignette {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle, transparent 40%, black 90%);
+            z-index: 91; pointer-events: none;
         }
 
-        /* تأثير الوشوشة (Noise) */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://media.giphy.com/media/oEI9uWUqW5nJC/giphy.gif');
-            opacity: 0.05; pointer-events: none; z-index: 99;
-        }
-
-        /* شاشة الدخول */
-        #enter-screen {
-            position: fixed; inset: 0; background: #050008;
+        /* --- واجهة الدخول --- */
+        #intro-screen {
+            position: absolute; inset: 0;
+            background: #000;
             display: flex; justify-content: center; align-items: center;
-            z-index: 1000; cursor: pointer; transition: 1s;
+            z-index: 1000;
         }
 
-        #enter-btn {
-            font-size: 1.5rem; color: #fff;
-            text-shadow: 0 0 10px var(--blood-red);
-            letter-spacing: 5px; animation: pulse 2s infinite;
+        .enter-btn {
+            color: #fff;
+            font-size: 1.5rem; /* صغير ومناسب للهاتف */
+            border: 1px solid #333;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: flicker 2s infinite;
+            cursor: pointer;
+            background: transparent;
         }
 
-        /* المسرح الرئيسي */
-        #stage {
-            height: 100vh; width: 100vw;
-            display: none; position: relative;
-            background: radial-gradient(circle, #1a0029 0%, #000 70%);
+        /* --- المحتوى الرئيسي --- */
+        #main-stage {
+            display: none;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a0029 0%, #000 80%);
+            position: relative;
         }
 
-        /* نص MXA المرعب */
         #mxa-text {
-            position: absolute; top: 50%; left: 50%;
+            position: absolute;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5rem; color: #8a2be2;
-            text-shadow: 3px 3px 0px #220033, 0 0 20px #ff00ea;
-            letter-spacing: 15px; filter: blur(0.5px);
-            transition: 0.3s cubic-bezier(.17,.67,.83,.67);
+            font-size: 3rem; /* حجم متوسط للهاتف */
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 10px var(--glow-color);
+            letter-spacing: 8px;
+            opacity: 1;
+            transition: opacity 1s;
         }
 
-        /* العقرب - مخفي في البداية */
-        #scorpion-wrap {
-            display: none; position: absolute;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 10rem; filter: drop-shadow(0 0 20px red) invert(1);
+        /* --- الوحش (العقرب) --- */
+        #monster-container {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px; /* حجم واقعي للهاتف */
+            height: auto;
+            filter: drop-shadow(0 0 30px #000); /* ظل ثقيل */
         }
 
-        /* أنيميشن الهجوم (Jump Scare) */
-        .jumpscare {
-            animation: attack-move 0.25s forwards !important;
+        /* صورة عقرب واقعية (صورة خارجية) */
+        #scorpion-img {
+            width: 100%;
+            filter: contrast(150%) brightness(0.6) sepia(1) hue-rotate(280deg) saturate(300%);
+            /* هذا الفلتر يجعل أي صورة تبدو كمسخ بنفسجي غامق ومرعب */
         }
 
-        @keyframes attack-move {
-            0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
-            40% { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); }
-            100% { transform: translate(-50%, -50%) scale(15); filter: brightness(0); visibility: hidden; }
+        /* --- تأثير الهجوم --- */
+        .jumpscare-anim {
+            animation: lunging 0.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
         }
 
-        /* الدماء المسالة */
+        @keyframes lunging {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            40% { transform: translate(-50%, -50%) scale(0.9); } /* تراجع للخلف قليلاً للاستعداد */
+            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; } /* هجوم في الوجه */
+        }
+
+        /* فلاش أبيض عند الهجوم */
+        .flash {
+            position: fixed; inset: 0; background: white;
+            opacity: 0; pointer-events: none; z-index: 200;
+        }
+        .flash-active { animation: flashbang 0.5s ease-out; }
+        @keyframes flashbang { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* --- الدماء الواقعية --- */
+        #blood-overlay {
+            position: fixed; inset: 0;
+            z-index: 150; pointer-events: none;
+        }
+
+        .blood-splatter {
+            position: absolute;
+            background: var(--blood-color);
+            border-radius: 50%;
+            opacity: 0.9;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.5), 
+                        inset 2px 2px 5px rgba(255,255,255,0.2);
+        }
+
         .blood-drip {
-            position: absolute; top: -100px;
-            background: linear-gradient(to bottom, transparent, var(--blood-red));
-            width: 20px; border-radius: 0 0 15px 15px;
-            filter: blur(1px); z-index: 50;
+            position: absolute;
+            background: var(--blood-color);
+            width: 100%;
+            border-radius: 0 0 10px 10px;
+            animation: dripping 4s ease-in forwards;
         }
 
-        /* اهتزاز الشاشة */
-        .shake { animation: shake-anim 0.1s infinite; }
-        @keyframes shake-anim {
-            0% { transform: translate(2px, 2px); }
-            50% { transform: translate(-3px, -1px); }
-            100% { transform: translate(1px, 2px); }
+        @keyframes dripping {
+            0% { height: 0; opacity: 1; }
+            80% { opacity: 0.9; }
+            100% { height: 400px; opacity: 0.6; }
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        /* --- تأثيرات إضافية --- */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+            52% { opacity: 0.2; }
+            54% { opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="crt-overlay"></div>
-    <div class="noise"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div id="flash-screen" class="flash"></div>
+    <div id="blood-overlay"></div>
 
-    <div id="enter-screen" onclick="initHorror()">
-        <div id="enter-btn">[ ENTER THE VOID ]</div>
+    <div id="intro-screen">
+        <button class="enter-btn" onclick="startHorror()">[ ENTER ]</button>
     </div>
 
-    <div id="stage">
+    <div id="main-stage">
         <div id="mxa-text">MXA</div>
-        <div id="scorpion-wrap">🦂</div>
-        <div id="blood-curtain"></div>
+        
+        <div id="monster-container">
+            <img id="scorpion-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Scorpion_PSF.png/800px-Scorpion_PSF.png" alt="Monster">
+        </div>
     </div>
 
     <script>
-        const stage = document.getElementById('stage');
+        const intro = document.getElementById('intro-screen');
+        const stage = document.getElementById('main-stage');
         const mxa = document.getElementById('mxa-text');
-        const scorp = document.getElementById('scorpion-wrap');
-        const bloodCurtain = document.getElementById('blood-curtain');
+        const monster = document.getElementById('monster-container');
+        const flash = document.getElementById('flash-screen');
+        const bloodLayer = document.getElementById('blood-overlay');
 
-        function initHorror() {
-            document.getElementById('enter-screen').style.opacity = '0';
+        function startHorror() {
+            // إخفاء زر الدخول
+            intro.style.transition = "opacity 1s";
+            intro.style.opacity = 0;
+            
             setTimeout(() => {
-                document.getElementById('enter-screen').style.display = 'none';
+                intro.style.display = 'none';
                 stage.style.display = 'block';
-                startTimeline();
+                
+                // بدء السيناريو
+                runSequence();
             }, 1000);
         }
 
-        function startTimeline() {
-            // المرحلة 1: هدوء مريب (5 ثواني)
+        function runSequence() {
+            // المرحلة 1: 5 ثواني من الهدوء المريب
+            // النص ينبض ببطء
+            mxa.animate([
+                { opacity: 0.8, transform: 'translate(-50%, -50%) scale(1)' },
+                { opacity: 0.4, transform: 'translate(-50%, -50%) scale(0.98)' },
+                { opacity: 0.8, transform: 'translate(-50%, -50%) scale(1)' }
+            ], {
+                duration: 2000,
+                iterations: Infinity
+            });
+
             setTimeout(() => {
-                transformToScorpion();
+                // تحول الحروف
+                triggerTransformation();
             }, 5000);
         }
 
-        function transformToScorpion() {
-            // تأثير خلل (Glitch) عند التحول
-            mxa.style.filter = "blur(20px) contrast(200%)";
-            mxa.style.opacity = "0";
-            
+        function triggerTransformation() {
+            // النص يتشوش ويختفي
+            mxa.style.filter = "blur(10px)";
+            mxa.style.opacity = 0;
+
             setTimeout(() => {
-                mxa.style.display = "none";
-                scorp.style.display = "block";
-                document.body.classList.add('shake');
+                mxa.style.display = 'none';
                 
-                // المرحلة 2: العقرب يتربص (3 ثواني)
+                // ظهور العقرب (ليس فجأة، بل يخرج من الظلام)
+                monster.style.display = 'block';
+                monster.animate([
+                    { opacity: 0, filter: 'blur(5px)' },
+                    { opacity: 1, filter: 'blur(0)' }
+                ], { duration: 1000, fill: 'forwards' });
+
+                // المرحلة 2: العقرب يحدق بك لـ 3 ثواني
                 setTimeout(() => {
-                    executeJumpScare();
+                    attack();
                 }, 3000);
+
             }, 500);
         }
 
-        function executeJumpScare() {
-            scorp.classList.add('jumpscare');
+        function attack() {
+            // الهجوم المرعب
+            monster.classList.add('jumpscare-anim');
+            flash.classList.add('flash-active');
             
-            // المرحلة 3: السواد التام والدماء
+            // اهتزاز الهاتف (يعمل على الأندرويد)
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
             setTimeout(() => {
-                document.body.classList.remove('shake');
+                // بعد الهجوم مباشرة: شاشة سوداء
                 stage.style.background = "black";
-                scorp.style.display = "none";
-                startBloodRain();
-            }, 250);
-        }
-
-        function startBloodRain() {
-            setInterval(() => {
-                const drip = document.createElement('div');
-                drip.className = 'blood-drip';
-                const size = Math.random() * 40 + 10;
-                drip.style.left = Math.random() * 100 + 'vw';
-                drip.style.width = size + 'px';
-                drip.style.height = (Math.random() * 200 + 100) + 'px';
+                monster.style.display = "none";
                 
-                // تحريك الدم كأنه يسيل
-                drip.animate([
-                    { transform: 'translateY(-100%)', opacity: 0 },
-                    { opacity: 1, offset: 0.1 },
-                    { transform: 'translateY(100vh)', opacity: 0.8 }
-                ], {
-                    duration: Math.random() * 2000 + 3000,
-                    easing: 'linear'
-                });
-
-                bloodCurtain.appendChild(drip);
-                setTimeout(() => drip.remove(), 5000);
-            }, 150);
+                // بدء الدماء
+                simulateBloodSplatter();
+            }, 200);
         }
+
+        function simulateBloodSplatter() {
+            // نصنع تأثير دم يضرب الشاشة (Splash)
+            for(let i=0; i<5; i++) {
+                setTimeout(() => {
+                    createSplatter();
+                }, i * 300);
+            }
+        }
+
+        function createSplatter() {
+            const splatter = document.createElement('div');
+            splatter.classList.add('blood-splatter');
+            
+            // مواقع عشوائية للطخة
+            const size = Math.random() * 80 + 40; // حجم الطخة
+            const x = Math.random() * 80 + 10; // موقع أفقي
+            const y = Math.random() * 40 + 10; // موقع عمودي (في النصف العلوي)
+            
+            splatter.style.width = size + 'px';
+            splatter.style.height = size + 'px';
+            splatter.style.left = x + 'vw';
+            splatter.style.top = y + 'vh';
+            
+            // شكل غير منتظم للطخة (Organic Shape)
+            splatter.style.borderRadius = `${Math.random()*50+30}% ${Math.random()*50+30}% ${Math.random()*50+30}% ${Math.random()*50+30}%`;
+
+            // إضافة السيلان (Drip) للطخة
+            const drip = document.createElement('div');
+            drip.classList.add('blood-drip');
+            // عرض السيلان عشوائي
+            drip.style.width = (Math.random() * 10 + 5) + 'px'; 
+            drip.style.left = (Math.random() * 50 + 20) + '%';
+            
+            splatter.appendChild(drip);
+            bloodLayer.appendChild(splatter);
+        }
+
     </script>
 </body>
 </html>
